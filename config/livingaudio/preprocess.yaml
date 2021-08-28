@@ -1,10 +1,10 @@
-dataset: "LJSpeech"
+dataset: "livingaudio"
 
 path:
-  corpus_path: "./data/LJSpeech-1.1"
+  corpus_path: "../data/Living-Audio-Dataset/en"
   lexicon_path: "lexicon/librispeech-lexicon.txt"
-  raw_path: "./raw_data/LJSpeech"
-  preprocessed_path: "./preprocessed_data/LJSpeech"
+  raw_path: "./raw_data/livingaudio"
+  preprocessed_path: "./preprocessed_data/livingaudio"
 
 preprocessing:
   val_size: 512

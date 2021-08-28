@@ -22,13 +22,13 @@ def main(args, configs):
     print("Prepare training ...")
 
     preprocess_config, model_config, train_config = configs
-
     # Get dataset
     dataset = Dataset(
         "train.txt", preprocess_config, train_config, sort=True, drop_last=True
     )
     batch_size = train_config["optimizer"]["batch_size"]
     group_size = 4  # Set this larger than 1 to enable sorting in Dataset
+    print(batch_size * group_size , len(dataset))
     assert batch_size * group_size < len(dataset)
     loader = DataLoader(
         dataset,

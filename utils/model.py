@@ -8,7 +8,7 @@ import hifigan
 from model import FastSpeech2, ScheduledOptim
 
 
-def get_model(args, configs, device, train=False):
+def get_model(args, configs, device, train=False, finetune=False):
     (preprocess_config, model_config, train_config) = configs
 
     model = FastSpeech2(preprocess_config, model_config).to(device)
@@ -17,14 +17,18 @@ def get_model(args, configs, device, train=False):
             train_config["path"]["ckpt_path"],
             "{}.pth.tar".format(args.restore_step),
         )
+        print("Loading {ckpt_path}")
         ckpt = torch.load(ckpt_path)
         model.load_state_dict(ckpt["model"])
 
     if train:
+        if finetune:
+            model.decoder.requires_grad_ = False
+
         scheduled_optim = ScheduledOptim(
             model, train_config, model_config, args.restore_step
         )
-        if args.restore_step:
+        if args.restore_step and not finetune:
             scheduled_optim.load_state_dict(ckpt["optimizer"])
         model.train()
         return model, scheduled_optim

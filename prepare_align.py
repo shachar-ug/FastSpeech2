@@ -2,7 +2,7 @@ import argparse
 
 import yaml
 
-from preprocessor import ljspeech, aishell3, libritts
+from preprocessor import kids_speech, ljspeech, aishell3, libritts, livingaudio
 
 
 def main(config):
@@ -12,6 +12,10 @@ def main(config):
         aishell3.prepare_align(config)
     if "LibriTTS" in config["dataset"]:
         libritts.prepare_align(config)
+    if "kids_speech" in config["dataset"]:
+        kids_speech.prepare_align(config)
+    if "livingaudio" in config["dataset"]:
+        livingaudio.prepare_align(config)
 
 
 if __name__ == "__main__":

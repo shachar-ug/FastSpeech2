@@ -1,3 +1,4 @@
+import ipdb 
 import os
 import random
 import json
@@ -11,7 +12,7 @@ from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 
 import audio as Audio
-
+from pathlib import Path
 
 class Preprocessor:
     def __init__(self, config):
@@ -56,7 +57,6 @@ class Preprocessor:
         os.makedirs((os.path.join(self.out_dir, "energy")), exist_ok=True)
         os.makedirs((os.path.join(self.out_dir, "duration")), exist_ok=True)
 
-        print("Processing Data ...")
         out = list()
         n_frames = 0
         pitch_scaler = StandardScaler()
@@ -65,6 +65,8 @@ class Preprocessor:
         # Compute pitch, energy, duration, and mel-spectrogram
         speakers = {}
         for i, speaker in enumerate(tqdm(os.listdir(self.in_dir))):
+            if speaker == "speaker_counts.csv":
+                continue
             speakers[speaker] = i
             for wav_name in os.listdir(os.path.join(self.in_dir, speaker)):
                 if ".wav" not in wav_name:
@@ -74,6 +76,7 @@ class Preprocessor:
                 tg_path = os.path.join(
                     self.out_dir, "TextGrid", speaker, "{}.TextGrid".format(basename)
                 )
+
                 if os.path.exists(tg_path):
                     ret = self.process_utterance(speaker, basename)
                     if ret is None:
