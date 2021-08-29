@@ -1,18 +1,18 @@
-import ipdb 
+import json
 import os
 import random
-import json
+from pathlib import Path
 
-import tgt
+import audio as Audio
+import ipdb
 import librosa
 import numpy as np
 import pyworld as pw
+import tgt
 from scipy.interpolate import interp1d
 from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 
-import audio as Audio
-from pathlib import Path
 
 class Preprocessor:
     def __init__(self, config):
@@ -64,9 +64,8 @@ class Preprocessor:
 
         # Compute pitch, energy, duration, and mel-spectrogram
         speakers = {}
+        # ipdb.set_trace()
         for i, speaker in enumerate(tqdm(os.listdir(self.in_dir))):
-            if speaker == "speaker_counts.csv":
-                continue
             speakers[speaker] = i
             for wav_name in os.listdir(os.path.join(self.in_dir, speaker)):
                 if ".wav" not in wav_name:

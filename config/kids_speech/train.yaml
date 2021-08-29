@@ -2,8 +2,9 @@ path:
   ckpt_path: "./output/ckpt/kids_speech"
   log_path: "./output/log/kids_speech"
   result_path: "./output/result/kids_speech"
+finetune: true
 optimizer:
-  batch_size: 4
+  batch_size: 16
   betas: [0.9, 0.98]
   eps: 0.000000001
   weight_decay: 0.0

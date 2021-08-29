@@ -7,7 +7,7 @@ path:
   preprocessed_path: "./preprocessed_data/kids_speech"
 
 preprocessing:
-  speaker_id: "ahj"
+  speaker_id: ""
   val_size: 6
   text:
     text_cleaners: ["english_cleaners"]

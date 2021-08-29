@@ -28,7 +28,6 @@ def main(args, configs):
     )
     batch_size = train_config["optimizer"]["batch_size"]
     group_size = 4  # Set this larger than 1 to enable sorting in Dataset
-    print(batch_size * group_size , len(dataset))
     assert batch_size * group_size < len(dataset)
     loader = DataLoader(
         dataset,
@@ -38,7 +37,11 @@ def main(args, configs):
     )
 
     # Prepare model
-    model, optimizer = get_model(args, configs, device, train=True)
+    finetune = False
+    if "finetune" in train_config:
+        finetune = train_config["finetune"]
+        print("finetune=", finetune)
+    model, optimizer = get_model(args, configs, device, train=True, finetune=finetune)
     model = nn.DataParallel(model)
     num_param = get_param_num(model)
     Loss = FastSpeech2Loss(preprocess_config, model_config).to(device)
